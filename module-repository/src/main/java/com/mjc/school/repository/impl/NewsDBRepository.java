@@ -6,7 +6,12 @@ import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.repository.query.NewsQueryParams;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Join;
+
 import java.util.ArrayList;
 import java.util.List;
 
