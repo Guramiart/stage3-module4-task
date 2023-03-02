@@ -4,18 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -40,7 +29,7 @@ public class NewsModel implements BaseEntity<Long> {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @Column(name = "last_updated_date", nullable = false)
+    @Column(name = "last_updated_date")
     @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
@@ -55,6 +44,10 @@ public class NewsModel implements BaseEntity<Long> {
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private Set<TagModel> tags;
 
+    @OneToOne
+    @JoinColumn(name = "comment_id", referencedColumnName = "id")
+    private CommentModel comment;
+
     private static class NewsBuilder {
         private final Long id;
         private final String title;
@@ -63,6 +56,7 @@ public class NewsModel implements BaseEntity<Long> {
         private LocalDateTime lastUpdatedDate;
         private AuthorModel author;
         private Set<TagModel> tags;
+        private CommentModel comment;
 
         public NewsBuilder(Long id, String title, String content) {
             this.id = id;
@@ -90,6 +84,11 @@ public class NewsModel implements BaseEntity<Long> {
             return this;
         }
 
+        public NewsBuilder comment(CommentModel comment) {
+            this.comment = comment;
+            return this;
+        }
+
         public NewsModel build() {
             return new NewsModel(this);
         }
@@ -105,6 +104,7 @@ public class NewsModel implements BaseEntity<Long> {
         lastUpdatedDate = newsBuilder.lastUpdatedDate;
         author = newsBuilder.author;
         tags = newsBuilder.tags;
+        comment = newsBuilder.comment;
     }
 
     @Override
@@ -153,7 +153,7 @@ public class NewsModel implements BaseEntity<Long> {
         return author;
     }
 
-    public void setAuthorModel(AuthorModel author) {
+    public void setAuthor(AuthorModel author) {
         this.author = author;
     }
 
@@ -163,6 +163,14 @@ public class NewsModel implements BaseEntity<Long> {
 
     public void setTags(Set<TagModel> tags) {
         this.tags = tags;
+    }
+
+    public CommentModel getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentModel comment) {
+        this.comment = comment;
     }
 
     @Override

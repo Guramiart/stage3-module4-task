@@ -1,5 +1,7 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
@@ -9,78 +11,77 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
-import javax.persistence.FetchType;
-import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
-public class AuthorModel implements BaseEntity<Long>{
+public class CommentModel implements BaseEntity<Long>{
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "comment")
+    private String comment;
 
     @Column(name = "created_date")
+    @CreatedDate
     private LocalDateTime createdDate;
 
-    @Column(name = "last_update_date")
+    @Column(name = "last_updated_date")
+    @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<NewsModel> news;
+    @OneToOne(mappedBy = "comment")
+    private NewsModel news;
 
-    private static class AuthorBuilder {
+    private static class CommentBuilder {
+
         private final Long id;
-        private final String name;
+        private final String comment;
         private LocalDateTime createdDate;
         private LocalDateTime lastUpdatedDate;
-        private List<NewsModel> news;
+        private NewsModel news;
 
-        public AuthorBuilder(Long id, String name) {
+        public CommentBuilder(Long id, String comment) {
             this.id = id;
-            this.name = name;
+            this.comment = comment;
         }
 
-        public AuthorBuilder createdDate(LocalDateTime createdDate) {
+        public CommentBuilder createdDate(LocalDateTime createdDate) {
             this.createdDate = createdDate;
             return this;
         }
 
-        public AuthorBuilder lastUpdateDate(LocalDateTime lastUpdatedDate) {
+        public CommentBuilder lastUpdatedDate(LocalDateTime lastUpdatedDate) {
             this.lastUpdatedDate = lastUpdatedDate;
             return this;
         }
 
-        public AuthorBuilder news(List<NewsModel> news) {
+        public CommentBuilder news(NewsModel news) {
             this.news = news;
             return this;
         }
 
-        public AuthorModel build() {
-            return new AuthorModel(this);
+        public CommentModel build() {
+            return new CommentModel(this);
         }
 
     }
 
-    public AuthorModel() {}
+    public CommentModel(){}
 
-    public AuthorModel(AuthorBuilder authorBuilder) {
-        id = authorBuilder.id;
-        name = authorBuilder.name;
-        createdDate = authorBuilder.createdDate;
-        lastUpdatedDate = authorBuilder.lastUpdatedDate;
-        news = authorBuilder.news;
+    public CommentModel(CommentBuilder commentBuilder) {
+        id = commentBuilder.id;
+        comment = commentBuilder.comment;
+        createdDate = commentBuilder.createdDate;
+        lastUpdatedDate = commentBuilder.lastUpdatedDate;
+        news = commentBuilder.news;
     }
 
     @Override
@@ -93,12 +94,12 @@ public class AuthorModel implements BaseEntity<Long>{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getComment() {
+        return comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -117,11 +118,11 @@ public class AuthorModel implements BaseEntity<Long>{
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
-    public List<NewsModel> getNews() {
-        return Collections.unmodifiableList(news);
+    public NewsModel getNews() {
+        return news;
     }
 
-    public void setNews(List<NewsModel> news) {
+    public void setNews(NewsModel news) {
         this.news = news;
     }
 
@@ -129,9 +130,9 @@ public class AuthorModel implements BaseEntity<Long>{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorModel that = (AuthorModel) o;
+        CommentModel that = (CommentModel) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(name, that.name)
+                && Objects.equals(comment, that.comment)
                 && Objects.equals(createdDate, that.createdDate)
                 && Objects.equals(lastUpdatedDate, that.lastUpdatedDate)
                 && Objects.equals(news, that.news);
@@ -139,12 +140,12 @@ public class AuthorModel implements BaseEntity<Long>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, createdDate, lastUpdatedDate, news);
+        return Objects.hash(id, comment, createdDate, lastUpdatedDate, news);
     }
 
     @Override
     public String toString() {
-        return String.format("%s[id=%d, name=%s, createDate=%s, updateDate=%s]",
-                getClass().getSimpleName(), id, name, createdDate, lastUpdatedDate);
+        return String.format("%s[id=%s, comment=%s, createdDate=%s, lastUpdatedDate=%s, newsId=%d]",
+                getClass().getSimpleName(), id, comment, createdDate, lastUpdatedDate, news.getId());
     }
 }
