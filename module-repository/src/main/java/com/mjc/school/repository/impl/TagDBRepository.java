@@ -2,11 +2,13 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.TagRepository;
 import com.mjc.school.repository.model.TagModel;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
+@Repository
 public class TagDBRepository extends AbstractDBRepository<TagModel, Long> implements TagRepository {
     @Override
     void update(TagModel prevState, TagModel nextState) {

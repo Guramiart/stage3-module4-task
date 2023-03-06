@@ -6,12 +6,12 @@ import com.mjc.school.service.dto.TagDtoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.Set;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TagMapper {
 
-    Set<TagDtoResponse> modelListToDtoList(Set<TagModel> models);
+    List<TagDtoResponse> modelListToDtoList(List<TagModel> models);
 
     TagDtoResponse modelToDto(TagModel model);
 

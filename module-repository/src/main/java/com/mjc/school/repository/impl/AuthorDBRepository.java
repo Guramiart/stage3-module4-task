@@ -2,11 +2,13 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.AuthorRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
+@Repository
 public class AuthorDBRepository extends AbstractDBRepository<AuthorModel, Long> implements AuthorRepository {
     @Override
     void update(AuthorModel prevState, AuthorModel nextState) {

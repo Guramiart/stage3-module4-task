@@ -2,11 +2,13 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.CommentRepository;
 import com.mjc.school.repository.model.CommentModel;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
+@Repository
 public class CommentDBRepository extends AbstractDBRepository<CommentModel, Long> implements CommentRepository {
 
     @Override

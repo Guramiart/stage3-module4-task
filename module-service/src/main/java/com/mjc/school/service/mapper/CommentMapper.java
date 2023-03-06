@@ -6,9 +6,12 @@ import com.mjc.school.service.dto.CommentDtoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
+    List<CommentDtoResponse> modelListToDtoList(List<CommentModel> modelList);
     CommentDtoResponse modelToDto(CommentModel model);
 
     @Mapping(target = "createdDate", ignore = true)

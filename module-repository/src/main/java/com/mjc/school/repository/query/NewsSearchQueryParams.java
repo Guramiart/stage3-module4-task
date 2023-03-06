@@ -2,7 +2,7 @@ package com.mjc.school.repository.query;
 
 import java.util.List;
 
-public record NewsQueryParams(
+public record NewsSearchQueryParams(
    List<String> tagNames,
    List<Integer> tagIds,
    String author,
