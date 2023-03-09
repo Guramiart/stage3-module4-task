@@ -7,8 +7,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "news")
@@ -42,7 +42,7 @@ public class NewsModel implements BaseEntity<Long> {
             name = "news_tags",
             joinColumns = { @JoinColumn(name = "news_id") },
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
-    private Set<TagModel> tags;
+    private List<TagModel> tags;
 
     @OneToOne
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
@@ -55,7 +55,7 @@ public class NewsModel implements BaseEntity<Long> {
         private LocalDateTime createdDate;
         private LocalDateTime lastUpdatedDate;
         private AuthorModel author;
-        private Set<TagModel> tags;
+        private List<TagModel> tags;
         private CommentModel comment;
 
         public NewsBuilder(Long id, String title, String content) {
@@ -79,7 +79,7 @@ public class NewsModel implements BaseEntity<Long> {
             return this;
         }
 
-        public NewsBuilder tags(Set<TagModel> tags) {
+        public NewsBuilder tags(List<TagModel> tags) {
             this.tags = tags;
             return this;
         }
@@ -157,11 +157,11 @@ public class NewsModel implements BaseEntity<Long> {
         this.author = author;
     }
 
-    public Set<TagModel> getTags() {
+    public List<TagModel> getTags() {
         return tags;
     }
 
-    public void setTags(Set<TagModel> tags) {
+    public void setTags(List<TagModel> tags) {
         this.tags = tags;
     }
 

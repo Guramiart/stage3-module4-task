@@ -5,7 +5,7 @@ import com.mjc.school.service.validator.constraint.Min;
 import com.mjc.school.service.validator.constraint.NotNull;
 import com.mjc.school.service.validator.constraint.Size;
 
-import java.util.Set;
+import java.util.List;
 
 public record NewsDtoRequest(
         @Min(1)
@@ -20,6 +20,7 @@ public record NewsDtoRequest(
         @Size(min = 5, max = 255)
         String content,
         Long authorId,
-        Set<Long> tagsId,
-        Long commentId) {
+        List<Long> tagsIds,
+        Long commentId
+) {
 }

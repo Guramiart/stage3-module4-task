@@ -1,5 +1,7 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
@@ -14,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +33,11 @@ public class AuthorModel implements BaseEntity<Long>{
     private String name;
 
     @Column(name = "created_date")
+    @CreatedDate
     private LocalDateTime createdDate;
 
-    @Column(name = "last_update_date")
+    @Column(name = "last_updated_date")
+    @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -118,7 +121,7 @@ public class AuthorModel implements BaseEntity<Long>{
     }
 
     public List<NewsModel> getNews() {
-        return Collections.unmodifiableList(news);
+        return news;
     }
 
     public void setNews(List<NewsModel> news) {

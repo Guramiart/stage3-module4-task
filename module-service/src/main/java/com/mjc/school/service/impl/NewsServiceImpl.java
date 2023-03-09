@@ -107,7 +107,7 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.modelListToDtoList(newsRepository.readBySearchParams(newsSearchQueryParams));
     }
 
-    private Long findFirstNonExistentTagId(Set<Long> tagsIds) {
+    private Long findFirstNonExistentTagId(List<Long> tagsIds) {
         return tagsIds.stream()
                 .filter(id -> !tagRepository.existById(id))
                 .findFirst()
@@ -120,7 +120,7 @@ public class NewsServiceImpl implements NewsService {
                     String.format(ServiceErrorCode.AUTHOR_ID_DOES_NOT_EXIST.getMessage(), request.authorId())
             );
         }
-        Long nonExistingTagId = findFirstNonExistentTagId(request.tagsId());
+        Long nonExistingTagId = findFirstNonExistentTagId(request.tagsIds());
         if(nonExistingTagId != null) {
             throw new NotFoundException(
                     String.format(ServiceErrorCode.TAG_ID_DOES_NOT_EXIST.getMessage(), nonExistingTagId)

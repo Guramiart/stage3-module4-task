@@ -30,14 +30,14 @@ public class ValidationAspect {
 
     @Before("execution(public * *(.., @com.mjc.school.service.validator.Valid (*), ..))")
     public void validateBeforeInvocation(final JoinPoint joinPoint) throws NoSuchMethodException {
-        if(joinPoint.getSignature() instanceof MethodSignature methodSignature) {
-            var targetMethod = getTargetMethod(joinPoint, methodSignature);
+        if (joinPoint.getSignature() instanceof MethodSignature signature) {
+            var targetMethod = getTargetMethod(joinPoint, signature);
             var args = joinPoint.getArgs();
             var parameterAnnotations = targetMethod.getParameterAnnotations();
 
             var violations = new HashSet<ConstraintViolation>();
-            for(int i = 0; i < parameterAnnotations.length; i++) {
-                if(requiresValidation(parameterAnnotations[i])) {
+            for (int i = 0; i < parameterAnnotations.length; i++) {
+                if (requiresValidation(parameterAnnotations[i])) {
                     violations.addAll(validator.validate(args[i]));
                 }
             }

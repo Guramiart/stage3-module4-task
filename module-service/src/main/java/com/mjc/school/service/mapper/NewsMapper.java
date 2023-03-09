@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = { AuthorMapper.class, TagMapper.class, CommentMapper.class})
 public abstract class NewsMapper {
@@ -33,7 +34,7 @@ public abstract class NewsMapper {
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "author", expression = "java(authorRepository.getReference(dto.authorId()))")
     @Mapping(target = "tags", expression =
-            "java(dto.tagsIds().stream().map(tagId -> tagRepository.getReference(tagId).toList()))")
+            "java(dto.tagsIds().stream().map(id -> tagRepository.getReference(id)).toList())")
     @Mapping(target = "comment", expression = "java(commentRepository.getReference(dto.commentId()))")
     public abstract NewsModel dtoToModel(NewsDtoRequest dto);
 }

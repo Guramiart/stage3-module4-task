@@ -15,9 +15,8 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ValidatorImpl implements Validator{
+public class ValidatorImpl implements Validator {
 
-    public static Logger LOGGER;
     private final Map<Class<? extends Annotation>, ConstraintChecker> checkersMap;
 
     @Autowired
@@ -27,13 +26,12 @@ public class ValidatorImpl implements Validator{
                 .collect(toMap(ConstraintChecker::getType, Function.identity()));
     }
 
-    @Override
-    public Set<ConstraintViolation> validate(Object object) {
-        if(object == null) {
+    public Set<ConstraintViolation> validate(final Object object) {
+        if (object == null) {
             return Collections.emptySet();
         }
         var violations = new HashSet<ConstraintViolation>();
-        for(var declaredField : object.getClass().getDeclaredFields()) {
+        for (var declaredField : object.getClass().getDeclaredFields()) {
             validateField(violations, declaredField, object);
         }
         return violations;
@@ -48,15 +46,19 @@ public class ValidatorImpl implements Validator{
         }
     }
 
-    private void validateField(Set<ConstraintViolation> violations, Field declaredField, Object object) {
-        for(var declaredAnnotation : declaredField.getDeclaredAnnotations()) {
+    private void validateField(
+            final Set<ConstraintViolation> violations,
+            final Field field,
+            final Object instance
+    ) {
+        for (var declaredAnnotation : field.getDeclaredAnnotations()) {
             var annotationType = declaredAnnotation.annotationType();
-            if(annotationType.isAnnotationPresent(Constraint.class)) {
+            if (annotationType.isAnnotationPresent(Constraint.class)) {
                 try {
-                    if(declaredField.trySetAccessible() && declaredField.canAccess(object)) {
-                        var value = declaredField.get(object);
+                    if (field.trySetAccessible() && field.canAccess(instance)) {
+                        var value = field.get(instance);
                         var checker = checkersMap.get(annotationType);
-                        if(checker != null && checker.check(value, annotationType.cast(declaredAnnotation))) {
+                        if (checker != null && !checker.check(value, annotationType.cast(declaredAnnotation))) {
                             violations.add(
                                     new ConstraintViolation(
                                             "Constraint '%s' violated for the value '%s'".formatted(
@@ -69,10 +71,9 @@ public class ValidatorImpl implements Validator{
                         validateObject(violations, value);
                     }
                 } catch (IllegalAccessException e) {
-                    LOGGER.warning(e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }
     }
-
 }

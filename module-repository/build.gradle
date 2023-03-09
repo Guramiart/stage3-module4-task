@@ -23,6 +23,5 @@ jar {
 flyway {
     url = "jdbc:h2:file:${System.getProperty('user.dir')}/h2db/news_management"
     user = 'sa'
-    password = 'sa'
     baselineOnMigrate = true
 }
