@@ -7,7 +7,6 @@ import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.query.NewsQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,14 +27,14 @@ public class NewsControllerImpl implements NewsController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public List<NewsDtoResponse> readAll() {
         return newsService.readAll();
     }
 
     @Override
-    @GetMapping(value = "/{id:\\d+}")
+    @GetMapping(value = "/{id:\\d+}", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public NewsDtoResponse readById(@PathVariable Long id) {
         return newsService.readById(id);
@@ -44,14 +43,14 @@ public class NewsControllerImpl implements NewsController {
     @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public NewsDtoResponse create(NewsDtoRequest createRequest) {
+    public NewsDtoResponse create(@RequestBody NewsDtoRequest createRequest) {
         return newsService.create(createRequest);
     }
 
     @Override
-    @PutMapping(value = "/{id:\\d+}")
+    @PatchMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
-    public NewsDtoResponse update(@PathVariable Long id, NewsDtoRequest updateRequest) {
+    public NewsDtoResponse update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
         return newsService.update(updateRequest);
     }
 
@@ -63,9 +62,15 @@ public class NewsControllerImpl implements NewsController {
     }
 
     @Override
-    @GetMapping(value = "/news")
+    @GetMapping(value = "/news", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<NewsDtoResponse> readBySearchParams(NewsQueryParams newsQueryParams) {
-        return null;
+    public List<NewsDtoResponse> readBySearchParams(
+            @RequestParam(value = "tag-id", required = false) List<Integer> tagIds,
+            @RequestParam(value = "tag-name", required = false) List<String> tagNames,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "content", required = false) String content) {
+        NewsQueryParams newsQueryParams = new NewsQueryParams(tagIds, tagNames, author, title, content);
+        return newsService.readBySearchParams(newsQueryParams);
     }
 }

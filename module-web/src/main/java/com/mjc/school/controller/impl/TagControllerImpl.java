@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping(
         value = "api/tags",
         consumes = {"application/JSON"},
-        produces = {"application/JSON", "application/XML"}
+        produces = {"application/JSON", "application/XML" }
 )
 public class TagControllerImpl implements TagController {
 
@@ -26,14 +26,14 @@ public class TagControllerImpl implements TagController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public List<TagDtoResponse> readAll() {
         return tagService.readAll();
     }
 
     @Override
-    @GetMapping(value = "/{id:\\d+}")
+    @GetMapping(value = "/{id:\\d+}", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public TagDtoResponse readById(@PathVariable Long id) {
         return tagService.readById(id);
@@ -42,14 +42,14 @@ public class TagControllerImpl implements TagController {
     @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public TagDtoResponse create(TagDtoRequest createRequest) {
+    public TagDtoResponse create(@RequestBody TagDtoRequest createRequest) {
         return tagService.create(createRequest);
     }
 
     @Override
-    @PutMapping(value = "/{id:\\d+}")
+    @PatchMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
-    public TagDtoResponse update(@PathVariable Long id, TagDtoRequest updateRequest) {
+    public TagDtoResponse update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
         return tagService.update(updateRequest);
     }
 
@@ -61,7 +61,7 @@ public class TagControllerImpl implements TagController {
     }
 
     @Override
-    @GetMapping(value = "/tag")
+    @GetMapping(value = "/tag", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
     public TagDtoResponse readByNewsId(@RequestParam("news-id") Long newsId) {
         return tagService.readByNewsId(newsId);

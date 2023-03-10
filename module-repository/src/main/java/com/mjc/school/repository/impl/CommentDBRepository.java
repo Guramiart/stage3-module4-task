@@ -13,7 +13,7 @@ public class CommentDBRepository extends AbstractDBRepository<CommentModel, Long
 
     @Override
     void update(CommentModel prevState, CommentModel nextState) {
-        prevState.setComment(nextState.getComment());
+        prevState.setName(nextState.getName());
         prevState.setNews(nextState.getNews());
     }
 

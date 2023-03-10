@@ -24,13 +24,14 @@ public class AuthorControllerImpl implements AuthorController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
     public List<AuthorDtoResponse> readAll() {
         return authorService.readAll();
     }
 
-    @GetMapping(value = "/{id:\\d+}")
+    @Override
+    @GetMapping(value = "/{id:\\d+}", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse readById(@PathVariable Long id) {
         return authorService.readById(id);
@@ -44,7 +45,7 @@ public class AuthorControllerImpl implements AuthorController {
     }
 
     @Override
-    @PutMapping(value = "/{id:\\d+}")
+    @PatchMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
         return authorService.update(updateRequest);
@@ -58,7 +59,7 @@ public class AuthorControllerImpl implements AuthorController {
     }
 
     @Override
-    @GetMapping(value = "/author")
+    @GetMapping(value = "/author", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse readByNewsId(@RequestParam("news-id") Long newsId) {
         return authorService.readByNewsId(newsId);

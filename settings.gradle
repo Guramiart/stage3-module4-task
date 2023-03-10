@@ -13,5 +13,3 @@ include 'module-service'
 include 'module-web'
 include 'main'
 include 'module-main'
-include 'module-main'
-

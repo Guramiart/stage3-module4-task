@@ -26,8 +26,8 @@ public class CommentModel implements BaseEntity<Long>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "created_date")
     @CreatedDate
@@ -43,14 +43,14 @@ public class CommentModel implements BaseEntity<Long>{
     private static class CommentBuilder {
 
         private final Long id;
-        private final String comment;
+        private final String name;
         private LocalDateTime createdDate;
         private LocalDateTime lastUpdatedDate;
         private NewsModel news;
 
-        public CommentBuilder(Long id, String comment) {
+        public CommentBuilder(Long id, String name) {
             this.id = id;
-            this.comment = comment;
+            this.name = name;
         }
 
         public CommentBuilder createdDate(LocalDateTime createdDate) {
@@ -78,7 +78,7 @@ public class CommentModel implements BaseEntity<Long>{
 
     public CommentModel(CommentBuilder commentBuilder) {
         id = commentBuilder.id;
-        comment = commentBuilder.comment;
+        name = commentBuilder.name;
         createdDate = commentBuilder.createdDate;
         lastUpdatedDate = commentBuilder.lastUpdatedDate;
         news = commentBuilder.news;
@@ -94,12 +94,12 @@ public class CommentModel implements BaseEntity<Long>{
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getName() {
+        return name;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -132,7 +132,7 @@ public class CommentModel implements BaseEntity<Long>{
         if (o == null || getClass() != o.getClass()) return false;
         CommentModel that = (CommentModel) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(comment, that.comment)
+                && Objects.equals(name, that.name)
                 && Objects.equals(createdDate, that.createdDate)
                 && Objects.equals(lastUpdatedDate, that.lastUpdatedDate)
                 && Objects.equals(news, that.news);
@@ -140,12 +140,12 @@ public class CommentModel implements BaseEntity<Long>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, comment, createdDate, lastUpdatedDate, news);
+        return Objects.hash(id, name, createdDate, lastUpdatedDate, news);
     }
 
     @Override
     public String toString() {
         return String.format("%s[id=%s, comment=%s, createdDate=%s, lastUpdatedDate=%s, newsId=%d]",
-                getClass().getSimpleName(), id, comment, createdDate, lastUpdatedDate, news.getId());
+                getClass().getSimpleName(), id, name, createdDate, lastUpdatedDate, news.getId());
     }
 }

@@ -26,14 +26,14 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public List<CommentDtoResponse> readAll() {
         return commentService.readAll();
     }
 
     @Override
-    @GetMapping(value = "/{id:\\d+}")
+    @GetMapping(value = "/{id:\\d+}", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
     public CommentDtoResponse readById(@PathVariable Long id) {
         return commentService.readById(id);
@@ -42,14 +42,14 @@ public class CommentControllerImpl implements CommentController {
     @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CommentDtoResponse create(CommentDtoRequest createRequest) {
+    public CommentDtoResponse create(@RequestBody CommentDtoRequest createRequest) {
         return commentService.create(createRequest);
     }
 
     @Override
-    @PutMapping(value = "/{id:\\d+}")
+    @PatchMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
-    public CommentDtoResponse update(@PathVariable Long id, CommentDtoRequest updateRequest) {
+    public CommentDtoResponse update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
         return commentService.update(updateRequest);
     }
 
@@ -61,7 +61,7 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @GetMapping(value = "/comment")
+    @GetMapping(value = "/comment", produces = "application/com.mjc.school-v1+json")
     public CommentDtoResponse readByNewsId(@RequestParam("news-id") Long newsId) {
         return commentService.readByNewsId(newsId);
     }
