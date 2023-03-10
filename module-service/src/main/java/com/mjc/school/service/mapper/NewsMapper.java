@@ -31,7 +31,7 @@ public abstract class NewsMapper {
     public abstract NewsDtoResponse modelToDto(NewsModel model);
 
     @Mapping(target = "createdDate", ignore = true)
-    @Mapping(target = "lastUpdateDate", ignore = true)
+    @Mapping(target = "lastUpdatedDate", ignore = true)
     @Mapping(target = "author", expression = "java(authorRepository.getReference(dto.authorId()))")
     @Mapping(target = "tags", expression =
             "java(dto.tagsIds().stream().map(id -> tagRepository.getReference(id)).toList())")

@@ -33,7 +33,7 @@ public class NewsModel implements BaseEntity<Long> {
     @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private AuthorModel author;
 
@@ -44,7 +44,7 @@ public class NewsModel implements BaseEntity<Long> {
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private List<TagModel> tags;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
     private CommentModel comment;
 

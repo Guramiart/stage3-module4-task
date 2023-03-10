@@ -47,9 +47,16 @@ public class TagControllerImpl implements TagController {
     }
 
     @Override
-    @PatchMapping(value = "/{id:\\d+}")
+    @PutMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
     public TagDtoResponse update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+        return tagService.update(updateRequest);
+    }
+
+    @Override
+    @PatchMapping(value = "/{id:\\d+}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public TagDtoResponse patch(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
         return tagService.update(updateRequest);
     }
 
@@ -63,7 +70,7 @@ public class TagControllerImpl implements TagController {
     @Override
     @GetMapping(value = "/tag", produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
-    public TagDtoResponse readByNewsId(@RequestParam("news-id") Long newsId) {
+    public List<TagDtoResponse> readByNewsId(@RequestParam("news-id") Long newsId) {
         return tagService.readByNewsId(newsId);
     }
 }

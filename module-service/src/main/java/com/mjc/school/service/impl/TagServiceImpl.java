@@ -77,11 +77,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional(readOnly = true)
-    public TagDtoResponse readByNewsId(Long id) {
-        return tagRepository.readByNewsId(id)
-                .map(tagMapper::modelToDto)
-                .orElseThrow(() -> new NotFoundException(
-                        String.format(ServiceErrorCode.TAG_ID_DOES_NOT_EXIST.getMessage(), id))
-                );
+    public List<TagDtoResponse> readByNewsId(Long id) {
+        return tagMapper.modelListToDtoList(tagRepository.readByNewsId(id));
     }
 }

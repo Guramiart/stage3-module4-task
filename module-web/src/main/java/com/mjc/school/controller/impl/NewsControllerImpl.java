@@ -48,9 +48,16 @@ public class NewsControllerImpl implements NewsController {
     }
 
     @Override
-    @PatchMapping(value = "/{id:\\d+}")
+    @PutMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
     public NewsDtoResponse update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
+        return newsService.update(updateRequest);
+    }
+
+    @Override
+    @PatchMapping(value = "/{id:\\d+}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public NewsDtoResponse patch(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
         return newsService.update(updateRequest);
     }
 

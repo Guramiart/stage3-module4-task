@@ -47,9 +47,16 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @PatchMapping(value = "/{id:\\d+}")
+    @PutMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.OK)
     public CommentDtoResponse update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+        return commentService.update(updateRequest);
+    }
+
+    @Override
+    @PatchMapping(value = "/{id:\\d+}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public CommentDtoResponse patch(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
         return commentService.update(updateRequest);
     }
 

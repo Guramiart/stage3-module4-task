@@ -4,14 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -37,7 +30,7 @@ public class CommentModel implements BaseEntity<Long>{
     @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
-    @OneToOne(mappedBy = "comment")
+    @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
     private NewsModel news;
 
     private static class CommentBuilder {
