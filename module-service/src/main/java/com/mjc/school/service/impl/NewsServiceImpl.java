@@ -1,9 +1,6 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.AuthorRepository;
-import com.mjc.school.repository.CommentRepository;
-import com.mjc.school.repository.NewsRepository;
-import com.mjc.school.repository.TagRepository;
+import com.mjc.school.repository.*;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.query.NewsSearchQueryParams;
 import com.mjc.school.service.NewsService;
@@ -124,11 +121,6 @@ public class NewsServiceImpl implements NewsService {
         if(nonExistingTagId != null) {
             throw new NotFoundException(
                     String.format(ServiceErrorCode.TAG_ID_DOES_NOT_EXIST.getMessage(), nonExistingTagId)
-            );
-        }
-        if(!commentRepository.existById(request.commentId())) {
-            throw new NotFoundException(
-                    String.format(ServiceErrorCode.COMMENT_ID_DOES_NOT_EXIST.getMessage(), request.commentId())
             );
         }
     }

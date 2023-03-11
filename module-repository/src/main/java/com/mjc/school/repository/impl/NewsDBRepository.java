@@ -24,7 +24,7 @@ public class NewsDBRepository extends AbstractDBRepository<NewsModel, Long> impl
         prevState.setContent(nextState.getContent());
         prevState.setAuthor(nextState.getAuthor());
         prevState.setTags(nextState.getTags());
-        prevState.setComment(nextState.getComment());
+        prevState.setComments(nextState.getComments());
     }
 
     @Override

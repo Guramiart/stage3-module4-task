@@ -30,7 +30,8 @@ public class CommentModel implements BaseEntity<Long>{
     @LastModifiedDate
     private LocalDateTime lastUpdatedDate;
 
-    @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinColumn(name = "news_id")
     private NewsModel news;
 
     private static class CommentBuilder {

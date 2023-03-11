@@ -10,6 +10,5 @@ public record NewsDtoResponse(
         LocalDateTime createdDate,
         LocalDateTime lastUpdatedDate,
         AuthorDtoResponse authorDto,
-        List<TagDtoResponse> tagsDto,
-        CommentDtoResponse commentDto) {
+        List<TagDtoResponse> tagsDto) {
 }

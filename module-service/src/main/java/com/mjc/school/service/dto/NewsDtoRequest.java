@@ -20,7 +20,6 @@ public record NewsDtoRequest(
         @Size(min = 5, max = 255)
         String content,
         Long authorId,
-        List<Long> tagsIds,
-        Long commentId
+        List<Long> tagsIds
 ) {
 }

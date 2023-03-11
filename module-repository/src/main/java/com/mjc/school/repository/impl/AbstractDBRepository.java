@@ -17,7 +17,6 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
 
     @PersistenceContext
     protected EntityManager entityManager;
-
     private final Class<T> entityClass;
     private final Class<K> idClass;
 

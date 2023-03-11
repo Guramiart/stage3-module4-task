@@ -37,16 +37,18 @@ public class NewsModel implements BaseEntity<Long> {
     @JoinColumn(name = "author_id")
     private AuthorModel author;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
             name = "news_tags",
             joinColumns = { @JoinColumn(name = "news_id") },
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private List<TagModel> tags;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", referencedColumnName = "id")
-    private CommentModel comment;
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<CommentModel> comments;
 
     private static class NewsBuilder {
         private final Long id;
@@ -56,7 +58,7 @@ public class NewsModel implements BaseEntity<Long> {
         private LocalDateTime lastUpdatedDate;
         private AuthorModel author;
         private List<TagModel> tags;
-        private CommentModel comment;
+        private List<CommentModel> comments;
 
         public NewsBuilder(Long id, String title, String content) {
             this.id = id;
@@ -84,8 +86,8 @@ public class NewsModel implements BaseEntity<Long> {
             return this;
         }
 
-        public NewsBuilder comment(CommentModel comment) {
-            this.comment = comment;
+        public NewsBuilder comments(List<CommentModel> comments) {
+            this.comments = comments;
             return this;
         }
 
@@ -104,7 +106,7 @@ public class NewsModel implements BaseEntity<Long> {
         lastUpdatedDate = newsBuilder.lastUpdatedDate;
         author = newsBuilder.author;
         tags = newsBuilder.tags;
-        comment = newsBuilder.comment;
+        comments = newsBuilder.comments;
     }
 
     @Override
@@ -145,7 +147,7 @@ public class NewsModel implements BaseEntity<Long> {
         return lastUpdatedDate;
     }
 
-    public void setLastUpdateDate(LocalDateTime lastUpdatedDate) {
+    public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
@@ -165,12 +167,17 @@ public class NewsModel implements BaseEntity<Long> {
         this.tags = tags;
     }
 
-    public CommentModel getComment() {
-        return comment;
+    public List<CommentModel> getComments() {
+        return comments;
     }
 
-    public void setComment(CommentModel comment) {
-        this.comment = comment;
+    public void setComments(List<CommentModel> comments) {
+        this.comments = comments;
+    }
+
+    public void removeTag(TagModel tag) {
+        tags.remove(tag);
+        tag.getNews().remove(this);
     }
 
     @Override

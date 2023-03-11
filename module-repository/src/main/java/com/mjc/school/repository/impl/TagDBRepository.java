@@ -1,6 +1,7 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.TagRepository;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,20 @@ public class TagDBRepository extends AbstractDBRepository<TagModel, Long> implem
     void update(TagModel prevState, TagModel nextState) {
         prevState.setName(nextState.getName());
         prevState.setNews(nextState.getNews());
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        if(id != null) {
+            TagModel entity = readById(id).get();
+            for (NewsModel model : entity.getNews()) {
+                model.removeTag(entity);
+                entityManager.merge(model);
+            }
+            entityManager.remove(entityManager.merge(entity));
+            return true;
+        }
+        return false;
     }
 
     @Override

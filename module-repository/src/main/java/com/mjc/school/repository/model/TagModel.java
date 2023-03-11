@@ -73,6 +73,11 @@ public class TagModel implements BaseEntity<Long>{
         this.news = news;
     }
 
+    @PreRemove
+    public void removeTags() {
+        news.forEach(t -> t.getTags().remove(this));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

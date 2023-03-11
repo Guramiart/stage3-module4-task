@@ -5,6 +5,8 @@ import com.mjc.school.service.validator.constraint.Min;
 import com.mjc.school.service.validator.constraint.NotNull;
 import com.mjc.school.service.validator.constraint.Size;
 
+import java.util.List;
+
 public record CommentDtoRequest(
 
         @Min(1)
@@ -13,5 +15,7 @@ public record CommentDtoRequest(
 
         @NotNull
         @Size(min = 5, max = 255)
-        String name) {
+        String name,
+
+        Long newsId) {
 }
