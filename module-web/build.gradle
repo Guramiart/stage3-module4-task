@@ -1,3 +1,13 @@
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
 dependencies {
     implementation project(':module-service')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'io.rest-assured:rest-assured:4.3.3'
+    testImplementation 'io.rest-assured:json-schema-validator:4.3.3'
 }
