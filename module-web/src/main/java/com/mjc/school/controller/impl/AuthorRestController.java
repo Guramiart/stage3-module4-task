@@ -14,11 +14,11 @@ import java.util.List;
         value = "api/authors",
         produces = {"application/JSON", "application/XML"}
 )
-public class AuthorControllerImpl implements AuthorController {
+public class AuthorRestController implements AuthorController {
 
     private final AuthorService authorService;
 
-    public AuthorControllerImpl(AuthorService authorService) {
+    public AuthorRestController(AuthorService authorService) {
         this.authorService = authorService;
     }
 

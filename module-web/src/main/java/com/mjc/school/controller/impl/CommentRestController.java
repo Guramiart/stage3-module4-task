@@ -15,12 +15,12 @@ import java.util.List;
         value = "api/comments",
         produces = {"application/JSON", "application/XML"}
 )
-public class CommentControllerImpl implements CommentController {
+public class CommentRestController implements CommentController {
 
     private final CommentService commentService;
 
     @Autowired
-    public CommentControllerImpl(CommentService commentService) {
+    public CommentRestController(CommentService commentService) {
         this.commentService = commentService;
     }
 

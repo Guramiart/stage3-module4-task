@@ -16,12 +16,12 @@ import java.util.List;
         value = "api/news",
         produces = {"application/JSON", "application/XML"}
 )
-public class NewsControllerImpl implements NewsController {
+public class NewsRestController implements NewsController {
 
     private final NewsService newsService;
 
     @Autowired
-    public NewsControllerImpl(NewsService newsService) {
+    public NewsRestController(NewsService newsService) {
         this.newsService = newsService;
     }
 

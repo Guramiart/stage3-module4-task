@@ -15,12 +15,12 @@ import java.util.List;
         value = "api/tags",
         produces = {"application/JSON", "application/XML" }
 )
-public class TagControllerImpl implements TagController {
+public class TagRestController implements TagController {
 
     private final TagService tagService;
 
     @Autowired
-    public TagControllerImpl(TagService tagService) {
+    public TagRestController(TagService tagService) {
         this.tagService = tagService;
     }
 
