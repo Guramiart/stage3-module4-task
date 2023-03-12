@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping(
         value = "api/comments",
-        consumes = {"application/JSON"},
         produces = {"application/JSON", "application/XML"}
 )
 public class CommentControllerImpl implements CommentController {

@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping(
         value = "api/authors",
-        consumes = {"application/JSON"},
         produces = {"application/JSON", "application/XML"}
 )
 public class AuthorControllerImpl implements AuthorController {

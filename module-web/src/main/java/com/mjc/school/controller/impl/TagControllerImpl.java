@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping(
         value = "api/tags",
-        consumes = {"application/JSON"},
         produces = {"application/JSON", "application/XML" }
 )
 public class TagControllerImpl implements TagController {
