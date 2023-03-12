@@ -7,6 +7,7 @@ import com.mjc.school.service.dto.AuthorDtoResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,8 +66,9 @@ public class AuthorRestController implements AuthorController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteById(@PathVariable Long id) {
-        return authorService.deleteById(id);
+    public ResponseEntity<Object> deleteById(@PathVariable Long id) {
+        authorService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override

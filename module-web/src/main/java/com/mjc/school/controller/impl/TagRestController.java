@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,8 +72,9 @@ public class TagRestController implements TagController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public boolean deleteById(@PathVariable Long id) {
-        return tagService.deleteById(id);
+    public ResponseEntity<Object> deleteById(@PathVariable Long id) {
+        tagService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
