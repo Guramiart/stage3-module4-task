@@ -6,6 +6,8 @@ import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.query.NewsQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +30,11 @@ public class NewsRestController implements NewsController {
     @Override
     @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<NewsDtoResponse> readAll() {
-        return newsService.readAll();
+    public List<NewsDtoResponse> readAll(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "5", required = false) int size
+    ) {
+        return newsService.readNewsPage(PageRequest.of(page, size));
     }
 
     @Override

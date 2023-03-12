@@ -2,11 +2,16 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.NewsRepository;
 import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.CommentModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.repository.query.NewsSearchQueryParams;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -25,6 +30,19 @@ public class NewsDBRepository extends AbstractDBRepository<NewsModel, Long> impl
         prevState.setAuthor(nextState.getAuthor());
         prevState.setTags(nextState.getTags());
         prevState.setComments(nextState.getComments());
+    }
+
+    @Override
+    public Page<NewsModel> readNewsPage(Pageable pageable) {
+        Query query = entityManager.createQuery("SELECT n FROM NewsModel n");
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+        query.setFirstResult(pageNumber * pageSize);
+        query.setMaxResults(pageSize);
+        List<NewsModel> news = query.getResultList();
+        Query queryCount = entityManager.createQuery("SELECT COUNT(n) FROM NewsModel n");
+        long count = (long) queryCount.getSingleResult();
+        return new PageImpl<>(news, pageable, count);
     }
 
     @Override

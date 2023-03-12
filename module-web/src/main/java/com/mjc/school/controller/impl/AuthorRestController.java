@@ -4,6 +4,8 @@ import com.mjc.school.controller.AuthorController;
 import com.mjc.school.service.AuthorService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,11 @@ public class AuthorRestController implements AuthorController {
     @Override
     @GetMapping(produces = "application/com.mjc.school-v1+json")
     @ResponseStatus(HttpStatus.OK)
-    public List<AuthorDtoResponse> readAll() {
-        return authorService.readAll();
+    public List<AuthorDtoResponse> readAll(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "5", required = false) int size
+    ) {
+        return authorService.readAuthorsPage(PageRequest.of(page, size));
     }
 
     @Override

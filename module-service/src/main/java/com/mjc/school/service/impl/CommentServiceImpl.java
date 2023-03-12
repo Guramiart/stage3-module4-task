@@ -10,6 +10,8 @@ import com.mjc.school.service.exceptions.ServiceErrorCode;
 import com.mjc.school.service.mapper.CommentMapper;
 import com.mjc.school.service.validator.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +75,12 @@ public class CommentServiceImpl implements CommentService {
                     String.format(ServiceErrorCode.COMMENT_ID_DOES_NOT_EXIST.getMessage(), id)
             );
         }
+    }
+
+    @Override
+    public List<CommentDtoResponse> readCommentsPage(Pageable pageable) {
+        Page<CommentModel> modelPage = commentRepository.readCommentsPage(pageable);
+        return commentMapper.modelListToDtoList(modelPage.getContent());
     }
 
     @Override

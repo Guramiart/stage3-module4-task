@@ -10,6 +10,8 @@ import com.mjc.school.service.exceptions.ServiceErrorCode;
 import com.mjc.school.service.mapper.AuthorMapper;
 import com.mjc.school.service.validator.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,12 @@ public class AuthorServiceImpl implements AuthorService {
         } else {
             throw new NotFoundException(String.format(ServiceErrorCode.AUTHOR_ID_DOES_NOT_EXIST.getMessage(), id));
         }
+    }
+
+    @Override
+    public List<AuthorDtoResponse> readAuthorsPage(Pageable pageable) {
+        Page<AuthorModel> modelPage = authorRepository.readAuthorsPage(pageable);
+        return authorMapper.modelListToDtoList(modelPage.getContent());
     }
 
     @Override

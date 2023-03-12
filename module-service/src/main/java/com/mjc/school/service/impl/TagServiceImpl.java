@@ -10,6 +10,8 @@ import com.mjc.school.service.exceptions.ServiceErrorCode;
 import com.mjc.school.service.mapper.TagMapper;
 import com.mjc.school.service.validator.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +75,13 @@ public class TagServiceImpl implements TagService {
                     String.format(ServiceErrorCode.TAG_ID_DOES_NOT_EXIST.getMessage(), id)
             );
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TagDtoResponse> readTagsPage(Pageable pageable) {
+        Page<TagModel> modelPage = tagRepository.readTagsPage(pageable);
+        return tagMapper.modelListToDtoList(modelPage.getContent());
     }
 
     @Override

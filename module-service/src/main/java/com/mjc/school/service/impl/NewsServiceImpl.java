@@ -12,11 +12,12 @@ import com.mjc.school.service.mapper.NewsMapper;
 import com.mjc.school.service.query.NewsQueryParams;
 import com.mjc.school.service.validator.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class NewsServiceImpl implements NewsService {
@@ -24,7 +25,6 @@ public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final AuthorRepository authorRepository;
     private final TagRepository tagRepository;
-    private final CommentRepository commentRepository;
     private final NewsMapper newsMapper;
 
     @Autowired
@@ -32,13 +32,11 @@ public class NewsServiceImpl implements NewsService {
             NewsRepository newsRepository,
             AuthorRepository authorRepository,
             TagRepository tagRepository,
-            CommentRepository commentRepository,
             NewsMapper newsMapper
     ) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
         this.tagRepository = tagRepository;
-        this.commentRepository = commentRepository;
         this.newsMapper = newsMapper;
     }
 
@@ -89,6 +87,12 @@ public class NewsServiceImpl implements NewsService {
                     String.format(ServiceErrorCode.NEWS_ID_DOES_NOT_EXIST.getMessage(), id)
             );
         }
+    }
+
+    @Override
+    public List<NewsDtoResponse> readNewsPage(Pageable pageable) {
+        Page<NewsModel> modelPage = newsRepository.readNewsPage(pageable);
+        return newsMapper.modelListToDtoList(modelPage.getContent());
     }
 
     @Override
