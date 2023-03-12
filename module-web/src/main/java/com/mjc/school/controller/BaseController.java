@@ -17,6 +17,6 @@ public interface BaseController<T, R, K> {
 
     R patch(K id, T updateRequest);
 
-    ResponseEntity<Void> deleteById(K id);
+    void deleteById(K id);
 
 }

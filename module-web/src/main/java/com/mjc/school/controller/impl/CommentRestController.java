@@ -68,9 +68,8 @@ public class CommentRestController implements CommentController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         commentService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override

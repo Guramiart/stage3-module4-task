@@ -66,9 +66,8 @@ public class AuthorRestController implements AuthorController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         authorService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override

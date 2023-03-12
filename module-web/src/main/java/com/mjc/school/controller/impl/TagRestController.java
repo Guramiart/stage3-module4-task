@@ -72,9 +72,8 @@ public class TagRestController implements TagController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         tagService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override

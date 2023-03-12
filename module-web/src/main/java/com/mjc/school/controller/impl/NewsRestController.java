@@ -69,9 +69,8 @@ public class NewsRestController implements NewsController {
     @Override
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         newsService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
